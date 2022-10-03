@@ -1,4 +1,5 @@
 # `deckstrings` for Hearthstone
+
 [![Travis](https://img.shields.io/travis/HearthSim/npm-deckstrings/master.svg)](https://travis-ci.org/HearthSim/npm-deckstrings)
 [![npm](https://img.shields.io/npm/v/deckstrings.svg)](http://npmjs.com/package/deckstrings)
 
@@ -22,7 +23,12 @@ $ yarn add deckstrings
 import { encode, decode, FormatType } from "deckstrings";
 
 const deck = {
-	cards: [[1, 2], [2, 2], [3, 2], [4, 1]], // [dbfId, count] pairs
+	cards: [
+		[1, 2],
+		[2, 2],
+		[3, 2],
+		[4, 1],
+	], // [dbfId, count] pairs
 	heroes: [7], // Garrosh Hellscream
 	format: FormatType.FT_WILD, // or FT_STANDARD or FT_CLASSIC
 };
@@ -33,3 +39,5 @@ console.log(deckstring); // AAEBAQcBBAMBAgMA
 const decoded = decode(deckstring);
 console.log(JSON.stringify(deck) === JSON.stringify(decoded)); // true
 ```
+
+npm run build && npm publish --access public

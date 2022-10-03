@@ -2,7 +2,7 @@ import {
 	DeckDefinition,
 	DeckList,
 	MercenariesTeamDefinition,
-	MercenaryDefinition
+	MercenaryDefinition,
 } from "../types";
 import { BufferReader, BufferWriter } from "./buffer";
 import { DECKSTRING_VERSION, FormatType } from "./constants";
@@ -150,9 +150,13 @@ export function encodeMercs(deck: MercenariesTeamDefinition): string {
 
 	const teamNameArray = new TextEncoder().encode(deck.name);
 	const bufferSize = teamNameArray.length;
+	// const teamNameWriter = new BufferWriter();
+	// for (let i = 0; i < bufferSize; i++) {
+	// 	teamNameWriter.byte(teamNameArray[i]);
+	// }
 	writer.varint(bufferSize);
 	for (let i = 0; i < bufferSize; i++) {
-		writer.varint(teamNameArray[i]);
+		writer.byte(teamNameArray[i]);
 	}
 
 	writer.varint(24);
@@ -221,6 +225,7 @@ export function decodeMercs(deckstring: string): MercenariesTeamDefinition {
 		teamNameArray.push(reader.nextByte());
 	}
 	const teamName = new TextDecoder().decode(new Uint8Array(teamNameArray));
+	console.log("teamName", teamName, teamNameSize, teamNameArray);
 
 	const hasType = reader.nextByte();
 	const type = reader.nextByte();
@@ -240,7 +245,10 @@ export function decodeMercs(deckstring: string): MercenariesTeamDefinition {
 		team.push(mercenary);
 		const encodingType = reader.nextByte();
 		if (encodingType !== 10) {
-			throw new Error("non-length delimited encoding not supported yet");
+			throw new Error(
+				"non-length delimited encoding not supported yet " +
+					encodingType
+			);
 		}
 		const fieldsForMerc = reader.nextByte();
 		const positionAtStart = reader.index;
@@ -287,4 +295,3 @@ export function decodeMercs(deckstring: string): MercenariesTeamDefinition {
 }
 
 export { FormatType };
-

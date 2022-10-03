@@ -27,3 +27,7 @@ export interface MercenaryDefinition {
 export function encode(deck: DeckDefinition): string;
 
 export function decode(deckstring: string): DeckDefinition;
+
+export function encodeMercs(deck: MercenariesTeamDefinition): string;
+
+export function decodeMercs(deckstring: string): MercenariesTeamDefinition;

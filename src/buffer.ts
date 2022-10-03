@@ -33,6 +33,11 @@ export class BufferWriter extends Iterator {
 		this.next(varint.encode.bytes);
 	}
 
+	public byte(value: number): void {
+		this.buffer[this.index] = value;
+		this.next();
+	}
+
 	public toString() {
 		const binary = String.fromCharCode(...this.buffer);
 		return btoa(binary);
