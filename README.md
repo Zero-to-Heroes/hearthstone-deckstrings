@@ -39,5 +39,3 @@ console.log(deckstring); // AAEBAQcBBAMBAgMA
 const decoded = decode(deckstring);
 console.log(JSON.stringify(deck) === JSON.stringify(decoded)); // true
 ```
-
-npm run build && npm publish --access public

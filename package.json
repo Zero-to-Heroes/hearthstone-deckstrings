@@ -1,6 +1,6 @@
 {
 	"name": "@firestone-hs/deckstrings",
-	"version": "2.2.4",
+	"version": "2.2.5",
 	"description": "Decode and encode Hearthstone Deckstrings",
 	"keywords": [
 		"hearthstone",
@@ -29,7 +29,8 @@
 		"test": "npm run build && npm run test:mocha",
 		"format": "prettier --write \"{src/**/*.ts,test/**/*.js,*.js,*.ts}\"",
 		"lint": "prettier --list-different \"{src/**/*.ts,test/**/*.js,*.js,*.ts}\"",
-		"type-check": "tsc"
+		"type-check": "tsc",
+		"publish-version": "npm run build && npm publish --access public"
 	},
 	"devDependencies": {
 		"@types/node": "^9.4.0",
