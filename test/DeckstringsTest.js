@@ -7,6 +7,7 @@ const {
 	encode,
 	encodeMercs,
 	FormatType,
+	DeckDefinition,
 } = require("../dist/index");
 const { expect } = require("chai");
 //#endif
@@ -82,6 +83,49 @@ const CLASSIC_DEFINITION = {
 	], // pairs of [dbfid, count], by ascending dbfId
 	heroes: [56358], // Elise Starseeker
 	format: FormatType.FT_CLASSIC, // 1 for Wild, 2 for Standard
+};
+
+const DECKSTRING_SIDEBOARD =
+	"AAECAZyrBBCU6APd7AOo7gOG+gPTgATDkQTckgTblATboATL4gSFkgX0oAWDoQXmowWVqgX9xAUHlZIE1bIE4LUElrcEssEExc4EhaoFAAEDsIoE/cQFv84E/cQF4qQF/cQFAAA=";
+
+const SIDEBOARD_DEFINITION = {
+	cards: [
+		[62484, 1],
+		[63069, 1],
+		[63272, 1],
+		[64774, 1],
+		[65619, 1],
+		[67779, 1],
+		[67861, 2],
+		[67932, 1],
+		[68187, 1],
+		[69723, 1],
+		[72021, 2],
+		[72416, 2],
+		[72598, 2],
+		[73906, 2],
+		[75589, 2],
+		[78155, 1],
+		[84229, 1],
+		[86132, 1],
+		[86147, 1],
+		[86502, 1],
+		[87301, 2],
+		[87317, 1],
+		[90749, 1],
+	], // pairs of [dbfid, count], by ascending dbfId
+	heroes: [71068],
+	format: FormatType.FT_STANDARD, // 1 for Wild, 2 for Standard
+	sideboards: [
+		{
+			cards: [
+				[66864, 1],
+				[75583, 1],
+				[86626, 1],
+			],
+			keyCardDbfId: 90749,
+		},
+	],
 };
 
 const MERCS_DECKSTRING =
@@ -406,6 +450,24 @@ describe("#decode", () => {
 		it("should return the expected deck definition", () => {
 			expect(JSON.stringify(result)).to.equal(
 				JSON.stringify(CLASSIC_DEFINITION)
+			);
+		});
+	});
+
+	describe("with a deckstring that has a sideboard", () => {
+		let result;
+
+		before("should decode without an error", () => {
+			result = decode(DECKSTRING_SIDEBOARD);
+		});
+
+		it("should return an object", () => {
+			expect(result).to.be.a("object");
+		});
+
+		it("should return the expected deck definition", () => {
+			expect(JSON.stringify(result)).to.equal(
+				JSON.stringify(SIDEBOARD_DEFINITION)
 			);
 		});
 	});

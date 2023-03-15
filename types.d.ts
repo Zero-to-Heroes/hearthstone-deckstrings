@@ -2,8 +2,14 @@ export type FormatType = 1 | 2 | 3;
 
 export type DeckList = [number, number][]; // [dbfId, count]
 
+export interface Sideboard {
+	keyCardDbfId: number;
+	cards: DeckList;
+}
+
 export interface DeckDefinition {
 	cards: DeckList;
+	sideboards?: Sideboard[];
 	heroes: number[];
 	format: FormatType;
 }

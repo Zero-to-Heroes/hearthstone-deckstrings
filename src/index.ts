@@ -3,6 +3,7 @@ import {
 	DeckList,
 	MercenariesTeamDefinition,
 	MercenaryDefinition,
+	Sideboard,
 } from "../types";
 import { BufferReader, BufferWriter } from "./buffer";
 import { DECKSTRING_VERSION, FormatType } from "./constants";
@@ -135,10 +136,42 @@ export function decode(deckstring: string): DeckDefinition {
 	}
 	sorted_cards(cards);
 
+	let sideboards: Sideboard[] | undefined = undefined;
+	const hasSideboard = reader.nextByte();
+	if (hasSideboard === 1) {
+		sideboards = [];
+		for (let i = 1; i <= 3; i++) {
+			// 1 = single cards, 2 = two copies, 3 = more than 2
+			const numberOfEntries = reader.nextVarint();
+			// The last ID is the sideboard's key card
+			for (let j = 0; j < numberOfEntries; j++) {
+				const cardId = reader.nextVarint();
+				const keyCardId = reader.nextVarint();
+				const numberOfCopies =
+					i === 1 || i === 2 ? i : reader.nextVarint();
+				let sideboard = sideboards.find(
+					s => s.keyCardDbfId === keyCardId
+				);
+				if (!sideboard) {
+					sideboard = {
+						cards: [],
+						keyCardDbfId: keyCardId,
+					};
+					sideboards.push(sideboard);
+				}
+				sideboard.cards.push([cardId, numberOfCopies]);
+			}
+		}
+		for (const sideboard of sideboards) {
+			sideboard.cards = sorted_cards(sideboard.cards);
+		}
+	}
+
 	return {
 		cards,
 		heroes,
 		format,
+		sideboards,
 	};
 }
 
@@ -225,7 +258,6 @@ export function decodeMercs(deckstring: string): MercenariesTeamDefinition {
 		teamNameArray.push(reader.nextByte());
 	}
 	const teamName = new TextDecoder().decode(new Uint8Array(teamNameArray));
-	console.log("teamName", teamName, teamNameSize, teamNameArray);
 
 	const hasType = reader.nextByte();
 	const type = reader.nextByte();
