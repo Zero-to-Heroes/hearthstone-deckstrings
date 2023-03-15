@@ -94,6 +94,26 @@ export function encode(deck: DeckDefinition): string {
 		}
 	}
 
+	const hasSideboard =
+		!!deck.sideboards && deck.sideboards.length > 0 ? 1 : 0;
+	writer.byte(hasSideboard);
+
+	if (hasSideboard && deck.sideboards != undefined) {
+		// For now, a single sideboard is supported
+		const sideboard = deck.sideboards[0];
+		for (let list of trisort_cards(sideboard.cards)) {
+			writer.varint(list.length);
+			for (let tuple of list) {
+				const [card, count] = tuple;
+				writer.varint(card);
+				if (count !== 1 && count !== 2) {
+					writer.varint(count);
+				}
+				writer.varint(sideboard.keyCardDbfId);
+			}
+		}
+	}
+
 	return writer.toString();
 }
 

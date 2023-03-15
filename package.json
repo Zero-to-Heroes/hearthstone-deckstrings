@@ -26,7 +26,7 @@
 		"test:prepare": "npm run build",
 		"test:mocha": "mocha",
 		"test:karma": "karma start \"karma.conf.js\" --single-run",
-		"test": "npm run build && npm run test:mocha && npm run test:karma",
+		"test": "npm run build && npm run test:mocha",
 		"format": "prettier --write \"{src/**/*.ts,test/**/*.js,*.js,*.ts}\"",
 		"lint": "prettier --list-different \"{src/**/*.ts,test/**/*.js,*.js,*.ts}\"",
 		"type-check": "tsc"

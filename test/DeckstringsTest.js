@@ -13,10 +13,10 @@ const { expect } = require("chai");
 //#endif
 
 const CANONICAL_DECKSTRING =
-	"AAECAR8GxwPJBLsFmQfZB/gIDI0B2AGoArUDhwSSBe0G6wfbCe0JgQr+DAA=";
+	"AAECAR8GxwPJBLsFmQfZB/gIDI0B2AGoArUDhwSSBe0G6wfbCe0JgQr+DAAA";
 
 const NONCANONICAL_DECKSTRING =
-	"AAECAR8GxwPJBLsFmQfZB/gIDJIF2AGoArUDhwSNAe0G6wfbCe0JgQr+DAA=";
+	"AAECAR8GxwPJBLsFmQfZB/gIDJIF2AGoArUDhwSNAe0G6wfbCe0JgQr+DAAA";
 
 const CANONICAL_DEFINITION = {
 	cards: [
@@ -59,7 +59,7 @@ const NONCANONICAL_DEFINITION = Object.assign({}, CANONICAL_DEFINITION, {
 ];
 
 const CLASSIC_DECKSTRING =
-	"AAEDAaa4AwTTlQSvlgT6oASPowQN25UE3JUEppYEsJYEtpYEvZYE1JYE3ZYE6aEE8KEE8aEE86EE1KIEAA==";
+	"AAEDAaa4AwTTlQSvlgT6oASPowQN25UE3JUEppYEsJYEtpYEvZYE1JYE3ZYE6aEE8KEE8aEE86EE1KIEAAA=";
 
 const CLASSIC_DEFINITION = {
 	cards: [
@@ -205,6 +205,22 @@ describe("#encode", () => {
 
 		it("should return the expected deckstring", () => {
 			expect(result).to.equal(CANONICAL_DECKSTRING);
+		});
+	});
+
+	describe("with a deck definition that has a sideboard", () => {
+		let result;
+
+		before("should encode without an error", () => {
+			result = encode(SIDEBOARD_DEFINITION);
+		});
+
+		it("should return a string", () => {
+			expect(result).to.be.a("string");
+		});
+
+		it("should return the expected deckstring", () => {
+			expect(result).to.equal(DECKSTRING_SIDEBOARD);
 		});
 	});
 
