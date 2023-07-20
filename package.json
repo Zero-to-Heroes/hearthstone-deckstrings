@@ -1,6 +1,6 @@
 {
 	"name": "@firestone-hs/deckstrings",
-	"version": "2.2.5",
+	"version": "2.2.7",
 	"description": "Decode and encode Hearthstone Deckstrings",
 	"keywords": [
 		"hearthstone",
