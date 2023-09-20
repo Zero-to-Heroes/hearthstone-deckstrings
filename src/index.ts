@@ -168,9 +168,9 @@ export function decode(deckstring: string): DeckDefinition {
 			// The last ID is the sideboard's key card
 			for (let j = 0; j < numberOfEntries; j++) {
 				const cardId = reader.nextVarint();
-				const keyCardId = reader.nextVarint();
 				const numberOfCopies =
 					i === 1 || i === 2 ? i : reader.nextVarint();
+				const keyCardId = reader.nextVarint();
 				let sideboard = sideboards.find(
 					s => s.keyCardDbfId === keyCardId
 				);
