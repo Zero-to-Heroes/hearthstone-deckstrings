@@ -270,7 +270,7 @@ describe("#encode", () => {
 			encode(Object.assign({}, CANONICAL_DEFINITION, { format: "1" }))
 		).to.throw();
 		expect(() =>
-			encode(Object.assign({}, CANONICAL_DEFINITION, { format: 4 }))
+			encode(Object.assign({}, CANONICAL_DEFINITION, { format: 8 }))
 		).to.throw();
 		expect(() =>
 			encode(Object.assign({}, CANONICAL_DEFINITION, { format: [1] }))
